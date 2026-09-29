@@ -1,0 +1,14 @@
+{
+  "profile_id": "example-organization",
+  "version": "1.0.0",
+  "organization_name": "Example Organization",
+  "products": ["Example Platform"],
+  "capabilities": ["threat monitoring"],
+  "services": ["managed security services"],
+  "industries": ["public sector"],
+  "technologies": ["SIEM"],
+  "positive_keywords": ["security information and event management"],
+  "negative_keywords": ["agricultural equipment"],
+  "geographic_preferences": [],
+  "excluded_categories": []
+}

@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "worldbank-opportunity-intelligence"
+version = "0.1.0"
+description = "World Bank connector proof of concept"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx>=0.27,<1",
+  "pydantic>=2.7,<3",
+  "pydantic-settings>=2.2,<3",
+  "SQLAlchemy>=2.0,<3",
+  "psycopg[binary]>=3.1,<4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "pytest-asyncio>=0.23,<1", "ruff>=0.5,<1"]
+web = ["fastapi>=0.110,<1", "uvicorn>=0.27,<1", "python-multipart>=0.0.9,<1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wb_connector", "src/opportunity_engine"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = [
+  "live: contacts live World Bank services; enable with RUN_LIVE_WORLD_BANK_TESTS=1",
+  "contract: validates connector assumptions against checked-in real captures",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

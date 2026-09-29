@@ -1,0 +1,937 @@
+{
+  "acquire_lexicon": [
+    "supply and installation",
+    "supply and installation",
+    "supply of",
+    "procurement of",
+    "purchase of",
+    "acquisition of",
+    "invitation for bids",
+    "request for bids",
+    "request for proposals",
+    "request for quotations",
+    "expression of interest",
+    "consultancy services",
+    "consulting services",
+    "shall supply",
+    "shall provide",
+    "shall install",
+    "shall deliver",
+    "terms of reference",
+    "scope of work",
+    "bidders are invited",
+    "tender for",
+    "lot 1",
+    "lot 2",
+    "delivery of"
+  ],
+  "acquire_window_tokens": 25,
+  "blocked_ngrams": [
+    "bid security",
+    "bid securities",
+    "performance security",
+    "advance payment security",
+    "security deposit",
+    "security of payment",
+    "collateral security",
+    "security agreement",
+    "security interest",
+    "secured transactions",
+    "security trustee",
+    "government securities",
+    "debt securities",
+    "securities and exchange",
+    "central securities depository",
+    "food security",
+    "nutrition security",
+    "seed security",
+    "water security",
+    "energy security",
+    "security of supply",
+    "supply security",
+    "livelihood security",
+    "income security",
+    "job security",
+    "social security",
+    "old age security",
+    "security of tenure",
+    "tenure security",
+    "land tenure security",
+    "security of title",
+    "health security",
+    "global health security",
+    "biosecurity",
+    "bio security",
+    "vaccine security",
+    "commodity security",
+    "border security",
+    "maritime security",
+    "aviation security",
+    "airport security",
+    "port security",
+    "nuclear security",
+    "radiological security",
+    "human security",
+    "citizen security",
+    "community security",
+    "public security",
+    "internal security",
+    "state security",
+    "national security council",
+    "security council",
+    "security sector reform",
+    "security forces",
+    "peace and security",
+    "physical security",
+    "security guard",
+    "security guards",
+    "security services",
+    "security personnel",
+    "security fencing",
+    "security lighting",
+    "security clearance",
+    "security screening",
+    "security printing",
+    "security features",
+    "security paper",
+    "security ink",
+    "security thread",
+    "safeguard",
+    "safeguards",
+    "safeguarding",
+    "safeguard policies",
+    "environmental and social safeguards",
+    "safeguards assessment",
+    "safeguard measures",
+    "siem reap",
+    "defect liability period",
+    "standard penetration test",
+    "cone penetration test",
+    "penetration grade",
+    "chloride penetration",
+    "water penetration",
+    "operating theatre",
+    "special drawing rights",
+    "income generating activity",
+    "income generating activities",
+    "international debt statistics",
+    "social protection floor",
+    "soil organic carbon",
+    "multi-drug resistant",
+    "united bank for africa",
+    "independent accountability mechanism",
+    "siem bouk",
+    "siemreap",
+    "liquid retina xdr",
+    "sino soar",
+    "soar hybrid",
+    "programme alimentaire mondial",
+    "equipo de protección personal",
+    "equipo de proteccion personal",
+    "meter data management",
+    "national aids commission",
+    "eskom holdings soc",
+    "soc trang",
+    "unidad tributaria mensual",
+    "defects liability period",
+    "defect's liability period",
+    "institute of development studies",
+    "innovative development solutions"
+  ],
+  "context_groups": {
+    "CONSTRUCTION": {
+      "name": "CONSTRUCTION",
+      "terms": [
+        "fire rated",
+        "fire-rated",
+        "compartment",
+        "masonry",
+        "wall",
+        "partition",
+        "brick",
+        "concrete",
+        "building code",
+        "hour rated"
+      ]
+    },
+    "CYBER_QUALIFIER": {
+      "name": "CYBER_QUALIFIER",
+      "terms": [
+        "cyber",
+        "cybersecurity",
+        "cyber security",
+        "information security",
+        "ICT security",
+        "IT security",
+        "network security",
+        "computer security",
+        "digital security",
+        "information systems security",
+        "malware",
+        "ransomware",
+        "cyber threat",
+        "threat actor",
+        "intrusion",
+        "ransomware attack",
+        "ISO 27001",
+        "NIST",
+        "zero trust",
+        "endpoint",
+        "SIEM",
+        "SOC",
+        "CSIRT",
+        "CERT",
+        "cyber attack",
+        "cyberattack",
+        "data breach",
+        "security operations",
+        "vulnerability management",
+        "phishing",
+        "cybersécurité",
+        "cybersecurite",
+        "sécurité informatique",
+        "securite informatique",
+        "sécurité des systèmes d'information",
+        "logiciel malveillant",
+        "pare-feu",
+        "pare feu",
+        "ciberseguridad",
+        "seguridad informática",
+        "seguridad informatica",
+        "seguridad de la información",
+        "seguridad de la informacion",
+        "cortafuegos",
+        "programa malicioso",
+        "monitoreo",
+        "cibersegurança",
+        "ciberseguranca",
+        "segurança da informação",
+        "seguranca da informacao"
+      ]
+    },
+    "NON_CYBER_INCIDENT": {
+      "name": "NON_CYBER_INCIDENT",
+      "terms": [
+        "emergency",
+        "disaster",
+        "outbreak",
+        "epidemic",
+        "pandemic",
+        "health",
+        "flood",
+        "earthquake",
+        "oil spill",
+        "humanitarian",
+        "road accident",
+        "road traffic",
+        "sexual exploitation",
+        "SEA",
+        "grievance",
+        "environmental",
+        "occupational",
+        "fire",
+        "landslide",
+        "drought"
+      ]
+    },
+    "NON_CYBER_VULNERABILITY": {
+      "name": "NON_CYBER_VULNERABILITY",
+      "terms": [
+        "climate",
+        "poverty",
+        "social",
+        "seismic",
+        "flood",
+        "coastal",
+        "disaster",
+        "hazard",
+        "household",
+        "food",
+        "nutrition",
+        "livelihood",
+        "drought"
+      ]
+    },
+    "PHYSICAL_SECURITY": {
+      "name": "PHYSICAL_SECURITY",
+      "terms": [
+        "perimeter",
+        "fencing",
+        "CCTV",
+        "guard",
+        "guards",
+        "turnstile",
+        "barrier",
+        "gate",
+        "patrol",
+        "manned",
+        "surveillance camera",
+        "door",
+        "lock",
+        "padlock"
+      ]
+    },
+    "WORKS_CONTRACT": {
+      "name": "WORKS_CONTRACT",
+      "terms": [
+        "defect",
+        "defects",
+        "liability period",
+        "warranty period",
+        "retention money",
+        "taking over certificate",
+        "completion certificate",
+        "civil works",
+        "the contractor",
+        "bill of quantities",
+        "as-built",
+        "practical completion"
+      ]
+    }
+  },
+  "description": "Pilot cybersecurity taxonomy. Deliberately small: measured per-term precision on a labelled set should decide what to add, not intuition. Collision guards target development-finance vocabulary, which is where the false positives actually come from.",
+  "taxonomy_id": "cybersecurity",
+  "taxonomy_version": "2026.09.9-pilot",
+  "terms": [
+    {
+      "category": "siem",
+      "id": "siem.expanded",
+      "text": "security information and event management",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "siem",
+      "id": "siem.misnomer",
+      "notes": "Frequent real-world ToR misnomer. Deliberately retained.",
+      "text": "security incident and event management",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "siem",
+      "id": "siem.correlation",
+      "text": "security event correlation",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "blocked_ngrams": [
+        "siem reap"
+      ],
+      "case_sensitive": true,
+      "category": "siem",
+      "id": "siem.acronym",
+      "notes": "Siem Reap is a Cambodian province with an active World Bank portfolio.",
+      "text": "SIEM",
+      "tier": "STRONG"
+    },
+    {
+      "category": "soar",
+      "id": "soar.expanded",
+      "text": "security orchestration automation and response",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "soar",
+      "id": "soar.expanded2",
+      "text": "security orchestration and automated response",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "case_sensitive": true,
+      "category": "soar",
+      "id": "soar.acronym",
+      "notes": "Lowercase 'soar' is the English verb; prices soar, costs soar.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 15
+      },
+      "text": "SOAR",
+      "tier": "STRONG"
+    },
+    {
+      "category": "soar",
+      "id": "soar.playbooks",
+      "text": "security playbooks",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "dlp",
+      "id": "dlp.expanded",
+      "text": "data loss prevention",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "dlp",
+      "id": "dlp.leakage",
+      "text": "data leakage prevention",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "dlp",
+      "id": "dlp.leak",
+      "text": "data leak prevention",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "dlp",
+      "id": "dlp.exfiltration",
+      "text": "data exfiltration prevention",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "blocked_context": {
+        "group": "WORKS_CONTRACT",
+        "window_tokens": 20
+      },
+      "blocked_ngrams": [
+        "defect liability period"
+      ],
+      "case_sensitive": true,
+      "category": "dlp",
+      "id": "dlp.acronym",
+      "notes": "DLP is the standard abbreviation for Defect Liability Period in FIDIC-derived works contracts.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 12
+      },
+      "text": "DLP",
+      "tier": "STRONG"
+    },
+    {
+      "category": "anti_phishing",
+      "id": "phish.anti",
+      "text": "anti phishing",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "anti_phishing",
+      "id": "phish.simulation",
+      "text": "phishing simulation",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "anti_phishing",
+      "id": "phish.spear",
+      "text": "spear phishing",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "anti_phishing",
+      "id": "phish.bec",
+      "text": "business email compromise",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "anti_phishing",
+      "id": "phish.seg",
+      "text": "secure email gateway",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "anti_phishing",
+      "id": "phish.awareness",
+      "text": "phishing awareness",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "anti_phishing",
+      "id": "phish.bare",
+      "text": "phishing",
+      "tier": "STRONG"
+    },
+    {
+      "case_sensitive": true,
+      "category": "anti_phishing",
+      "id": "phish.dmarc",
+      "text": "DMARC",
+      "tier": "STRONG"
+    },
+    {
+      "category": "ueba",
+      "id": "ueba.expanded.us",
+      "text": "user and entity behavior analytics",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "ueba",
+      "id": "ueba.expanded.gb",
+      "text": "user and entity behaviour analytics",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "ueba",
+      "id": "ueba.user.us",
+      "text": "user behavior analytics",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "ueba",
+      "id": "ueba.user.gb",
+      "text": "user behaviour analytics",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "case_sensitive": true,
+      "category": "ueba",
+      "guard_exempt": true,
+      "id": "ueba.acronym",
+      "notes": "No known collision in a development-finance corpus; the letter sequence has no other established expansion.",
+      "text": "UEBA",
+      "tier": "STRONG"
+    },
+    {
+      "category": "ueba",
+      "id": "ueba.insider",
+      "text": "insider threat detection",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "soc",
+      "id": "soc.centre",
+      "text": "security operations centre",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "soc",
+      "id": "soc.center",
+      "text": "security operations center",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "soc",
+      "id": "soc.mdr",
+      "text": "managed detection and response",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "soc",
+      "id": "soc.threat_hunting",
+      "text": "threat hunting",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "edr",
+      "id": "edr.expanded",
+      "text": "endpoint detection and response",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "edr",
+      "id": "xdr.expanded",
+      "text": "extended detection and response",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "ndr",
+      "id": "ndr.expanded",
+      "text": "network detection and response",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "iam",
+      "id": "iam.pam",
+      "text": "privileged access management",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "iam",
+      "id": "iam.expanded",
+      "notes": "Overlaps national digital-ID programmes, which are not cybersecurity procurements.",
+      "text": "identity and access management",
+      "tier": "STRONG"
+    },
+    {
+      "category": "iam",
+      "id": "iam.mfa",
+      "text": "multi factor authentication",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "pki",
+      "id": "pki.expanded",
+      "text": "public key infrastructure",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "waf",
+      "id": "waf.expanded",
+      "text": "web application firewall",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "zero_trust",
+      "id": "zt.architecture",
+      "text": "zero trust architecture",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "vuln",
+      "id": "vapt.expanded",
+      "text": "vulnerability assessment and penetration testing",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "blocked_ngrams": [
+        "standard penetration test",
+        "cone penetration test"
+      ],
+      "category": "vuln",
+      "id": "vapt.pentest",
+      "notes": "Geotechnical penetration testing is standard vocabulary across the works portfolio.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 15
+      },
+      "text": "penetration testing",
+      "tier": "CORROBORATING"
+    },
+    {
+      "category": "governance",
+      "id": "isms.expanded",
+      "text": "information security management system",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "governance",
+      "id": "std.iso27001",
+      "text": "ISO 27001",
+      "tier": "STRONG"
+    },
+    {
+      "category": "governance",
+      "id": "std.iso_iec_27001",
+      "text": "ISO IEC 27001",
+      "tier": "STRONG"
+    },
+    {
+      "category": "governance",
+      "id": "std.nist_csf",
+      "text": "NIST Cybersecurity Framework",
+      "tier": "STRONG"
+    },
+    {
+      "category": "governance",
+      "id": "std.pcidss",
+      "text": "PCI DSS",
+      "tier": "STRONG"
+    },
+    {
+      "category": "cert",
+      "id": "cert.team",
+      "text": "computer emergency response team",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "cert",
+      "id": "csirt.team",
+      "text": "computer security incident response team",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "awareness",
+      "id": "awareness.training",
+      "text": "security awareness training",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "umbrella",
+      "id": "cyber.closed",
+      "text": "cybersecurity",
+      "tier": "STRONG"
+    },
+    {
+      "category": "umbrella",
+      "id": "cyber.open",
+      "text": "cyber security",
+      "tier": "STRONG"
+    },
+    {
+      "category": "umbrella",
+      "id": "cyber.ict",
+      "text": "ICT security",
+      "tier": "STRONG"
+    },
+    {
+      "category": "policy",
+      "id": "prog.strategy",
+      "text": "national cybersecurity strategy",
+      "tier": "PROGRAM"
+    },
+    {
+      "category": "policy",
+      "id": "prog.ciip",
+      "text": "critical information infrastructure protection",
+      "tier": "PROGRAM"
+    },
+    {
+      "category": "policy",
+      "id": "prog.maturity",
+      "text": "cybersecurity maturity model",
+      "tier": "PROGRAM"
+    },
+    {
+      "category": "policy",
+      "id": "prog.resilience",
+      "text": "cyber resilience",
+      "tier": "PROGRAM"
+    },
+    {
+      "category": "policy",
+      "id": "prog.cybercrime",
+      "text": "cybercrime legislation",
+      "tier": "PROGRAM"
+    },
+    {
+      "blocked_context": {
+        "group": "NON_CYBER_INCIDENT",
+        "window_tokens": 12
+      },
+      "category": "soc",
+      "id": "corr.incident_response",
+      "notes": "Disaster, health and safeguards incident response saturate this corpus.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 12
+      },
+      "text": "incident response",
+      "tier": "CORROBORATING"
+    },
+    {
+      "blocked_context": {
+        "group": "PHYSICAL_SECURITY",
+        "window_tokens": 12
+      },
+      "category": "iam",
+      "id": "corr.access_control",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 12
+      },
+      "text": "access control",
+      "tier": "CORROBORATING"
+    },
+    {
+      "blocked_context": {
+        "group": "CONSTRUCTION",
+        "window_tokens": 12
+      },
+      "category": "network",
+      "id": "corr.firewall",
+      "text": "firewall",
+      "tier": "CORROBORATING"
+    },
+    {
+      "category": "crypto",
+      "id": "corr.encryption",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 15
+      },
+      "text": "encryption",
+      "tier": "CORROBORATING"
+    },
+    {
+      "blocked_context": {
+        "group": "NON_CYBER_VULNERABILITY",
+        "window_tokens": 12
+      },
+      "category": "vuln",
+      "id": "corr.vuln_assessment",
+      "notes": "Climate, social and seismic vulnerability assessments are core World Bank vocabulary.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 12
+      },
+      "text": "vulnerability assessment",
+      "tier": "WEAK"
+    },
+    {
+      "case_sensitive": true,
+      "category": "ot",
+      "id": "weak.scada",
+      "notes": "Ordinary utility procurement vocabulary without a security qualifier.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 10
+      },
+      "text": "SCADA",
+      "tier": "WEAK"
+    },
+    {
+      "category": "umbrella",
+      "id": "weak.infosec_umbrella",
+      "notes": "Returns ~26,044 notices as a standalone query term versus 475 for 'cybersecurity'. Held at CORROBORATING pending a decision on umbrella-term scope.",
+      "text": "information security",
+      "tier": "CORROBORATING"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.secure_web_gateway",
+      "text": "secure web gateway",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.url_filtering",
+      "text": "url filtering",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.web_filtering",
+      "text": "web filtering",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.web_content_filtering",
+      "text": "web content filtering",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.dns_filtering",
+      "text": "dns filtering",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.url_categorisation",
+      "text": "url categorisation",
+      "tier": "STRONG"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.url_categorization",
+      "text": "url categorization",
+      "tier": "STRONG"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.content_filtering",
+      "notes": "Also used for media/broadcast content moderation in development projects.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 15
+      },
+      "text": "content filtering",
+      "tier": "CORROBORATING"
+    },
+    {
+      "category": "url_filtering",
+      "id": "urlf.web_proxy",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 15
+      },
+      "text": "web proxy",
+      "tier": "CORROBORATING"
+    },
+    {
+      "case_sensitive": true,
+      "category": "url_filtering",
+      "id": "urlf.swg",
+      "notes": "Three-letter acronym; gated because short acronyms collide freely in this corpus.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 12
+      },
+      "text": "SWG",
+      "tier": "STRONG"
+    },
+    {
+      "case_sensitive": true,
+      "category": "waf",
+      "id": "waf.acronym",
+      "notes": "Short acronym; gated per the linter's short-acronym rule.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 12
+      },
+      "text": "WAF",
+      "tier": "STRONG"
+    },
+    {
+      "category": "waf",
+      "id": "waf.app_layer_fw",
+      "text": "application layer firewall",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "waf",
+      "id": "waf.ddos_protection",
+      "text": "DDoS protection",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "waf",
+      "id": "waf.ddos_mitigation",
+      "text": "DDoS mitigation",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "waf",
+      "id": "waf.bot_management",
+      "text": "bot management",
+      "tier": "STRONG"
+    },
+    {
+      "category": "waf",
+      "id": "waf.api_security",
+      "text": "api security gateway",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "waf",
+      "id": "net.ngfw_expanded",
+      "text": "next generation firewall",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "ndr",
+      "id": "net.ids",
+      "text": "intrusion detection system",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "ndr",
+      "id": "net.ips",
+      "text": "intrusion prevention system",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "siem",
+      "id": "siem.central_logging",
+      "text": "central logging",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "siem",
+      "id": "siem.log_management",
+      "notes": "Collides with forestry log tracking and chain-of-custody systems.",
+      "requires_context": {
+        "group": "CYBER_QUALIFIER",
+        "window_tokens": 15
+      },
+      "text": "log management",
+      "tier": "STRONG"
+    },
+    {
+      "category": "edr",
+      "id": "ep.endpoint_protection",
+      "text": "endpoint protection",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "pki",
+      "id": "pki.hsm_expanded",
+      "text": "hardware security module",
+      "tier": "EXCLUSIVE"
+    },
+    {
+      "category": "governance",
+      "id": "std.iso27001_2022",
+      "text": "ISO 27001:2022",
+      "tier": "STRONG"
+    }
+  ]
+}

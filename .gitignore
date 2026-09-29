@@ -1,0 +1,36 @@
+# Secrets. The README instructs creating .env from .env.example; it must never be committed.
+.env
+.env.*
+!.env.example
+
+# Virtualenvs
+.venv/
+venv/
+
+# Python build and cache artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local state: the saved filter, which notices were seen, and which tenders the user
+# is pursuing. Private commercial intent -- never commit it.
+dashboard.db
+dashboard.db-wal
+dashboard.db-shm
+
+# Reconnaissance and sweep sessions can be large. Review a capture before
+# committing it, then force-add the one you intend to keep:
+#   git add -f captures/<name>.json
+captures/*/
+!captures/README.md
+
+# Documents downloaded for OCR. Fetched content, not source, and potentially large.
+documents/
+
+# Design-system notes written by the UI tooling.
+design-system/
