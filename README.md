@@ -104,24 +104,61 @@ subject line, a live mailto to the buyer, and the project's published documents.
   retrieves would never produce a tender. Hand-written terms are shown but not removable
   — they carry context guards and blocklists a text box cannot express.
 
-## Quick start
+## Setup
+
+Needs **Python 3.11 or newer** and git. Nothing else — no database server, no `.env`,
+no Docker. Every setting has a working default, and the dashboard keeps its own state in
+a SQLite file it creates on first run.
+
+**Windows (PowerShell)**
 
 ```powershell
+git clone https://github.com/Prajwal3112/Opportunity.git
+cd Opportunity
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -e ".[dev]"
-Copy-Item .env.example .env
-docker compose up -d postgres
+python -m pip install --upgrade pip
+pip install -e ".[web,dev]"
 pytest -m "not live" -q
+python -m wb_connector.dashboard
 ```
 
-Create the database tables explicitly from a Python shell:
+**Linux / macOS**
 
-```python
-from wb_connector.config import get_settings
-from wb_connector.db import create_database
-create_database(get_settings().database_url)
+```bash
+git clone https://github.com/Prajwal3112/Opportunity.git
+cd Opportunity
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -e ".[web,dev]"
+pytest -m "not live" -q
+python -m wb_connector.dashboard
 ```
+
+Then open <http://127.0.0.1:8000>. The first load takes a few seconds while it fetches;
+after that the caches make it near-instant. Expect `147 passed` from the test run.
+
+If PowerShell refuses to run the activate script, allow it for this session only:
+`Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`.
+
+### Does it actually work?
+
+The page needs to reach `search.worldbank.org`. Check before blaming the tool:
+
+```bash
+python -c "import httpx; r = httpx.get('https://search.worldbank.org/api/procnotices', params={'qterm':'SIEM','rows':1,'fl':'id'}, timeout=30); print(r.status_code, r.json().get('total'))"
+```
+
+`200` and a number means the channel is open. A `CERTIFICATE_VERIFY_FAILED` means the
+network is running SSL deep inspection — the dashboard will say so rather than pretending
+the market is quiet, but you will see no tenders until you move networks.
+
+### Postgres is optional and unrelated
+
+`docker-compose.yml` and the `psycopg` dependency belong to `db.py`, an earlier
+persistence path the dashboard does not use. Ignore both unless you are working on that
+module; the dashboard, the digest and every test run without them.
 
 ## Architecture
 

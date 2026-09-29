@@ -16,11 +16,24 @@ from wb_connector import dossier
 from wb_connector.client import WorldBankApiClient
 from wb_connector.config import Settings
 
-CAPTURE = (
-    Path(__file__).resolve().parents[1]
-    / "captures" / "recon-20260904-1103" / "20-documents-qterm-cybersecurity.json"
-)
-pytestmark = pytest.mark.skipif(not CAPTURE.exists(), reason="real WDS capture not present")
+
+def _wds_capture() -> Path | None:
+    """Any real WDS capture. Discovered rather than hard-coded to a dated directory:
+    the recon folder is gitignored, so a pinned path meant these tests silently skipped
+    in every fresh clone."""
+    root = Path(__file__).resolve().parents[1] / "captures"
+    for candidate in sorted(root.glob("**/*documents*.json")):
+        try:
+            payload = json.loads(candidate.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if payload.get("endpoint") == "/api/v3/wds":
+            return candidate
+    return None
+
+
+CAPTURE = _wds_capture()
+pytestmark = pytest.mark.skipif(CAPTURE is None, reason="real WDS capture not present")
 
 
 @pytest.fixture

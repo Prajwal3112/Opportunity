@@ -1,0 +1,524 @@
+{
+  "capture_version": 1,
+  "captured_at": "2026-09-04T11:05:12.911726+00:00",
+  "endpoint": "/api/v3/wds",
+  "request_params": {
+    "os": 0,
+    "qterm": "cybersecurity",
+    "rows": 5
+  },
+  "request_url": "https://search.worldbank.org/api/v3/wds?qterm=cybersecurity&rows=5&os=0&format=json",
+  "response": {
+    "documents": {
+      "D29636926": {
+        "abstracts": {
+          "cdata!": "This report identifies prevalent concepts and practices and presents them in a way for financial sector authorities to consider and apply to their respective jurisdictions. Starting with the debate of whether cyber-specific regulations are necessary, the paper goes on to discuss the essential coordination between financial sector authorities and other state agencies in dealing with cyber risk. It then moves on to the topic taxonomies as one need to have a common language when speaking about cybersecurity to avoid any misunderstanding. Next sections discuss the issue of reiterating, or in some cases redefining, the responsibilities of the Board, Senior Management, and the Information Security Officer, specifically in dealing with cybersecurity. Next, a prominent feature in many supervisory and regulatory practices is the role of incident response and recovery, as well as requirements of tests and simulations. Lastly, the paper covers the managing outsourcing risk."
+        },
+        "admreg": "Other",
+        "authors": {
+          "0": {
+            "author": "Almansi, Aquiles A."
+          }
+        },
+        "available_in": "English",
+        "chronical_docm_id": "090224b0856c542f",
+        "colti": "FCI Insight",
+        "count": "World",
+        "datestored": "2018-02-22T05:00:00Z",
+        "disclosure_date": "2018-03-23T03:59:30Z",
+        "disclstat": "Disclosed",
+        "display_title": "Financial sector\u2019s cybersecurity : regulations and supervision",
+        "docdt": "2018-01-01T05:00:00Z",
+        "docna": {
+          "0": {
+            "docna": "Financial sector\u2019s cybersecurity : regulations and supervision"
+          }
+        },
+        "entityids": {
+          "entityid": "090224b0857f192c_2_0"
+        },
+        "fullavailablein": [],
+        "guid": "686891519282121021",
+        "historic_topic": "Information and Communication Technologies,Macroeconomics and Economic Growth",
+        "id": "29636926",
+        "keywd": {
+          "0": {
+            "keywd": "regulation and supervision"
+          },
+          "1": {
+            "keywd": " Federal Deposit Insurance Corporation"
+          },
+          "10": {
+            "keywd": " bank for international settlement"
+          },
+          "11": {
+            "keywd": " monetary authority of singapore"
+          },
+          "12": {
+            "keywd": " software as a service"
+          },
+          "13": {
+            "keywd": " financial service"
+          },
+          "14": {
+            "keywd": " risk management framework"
+          },
+          "15": {
+            "keywd": " risk management standards"
+          },
+          "16": {
+            "keywd": " business continuity plan"
+          },
+          "17": {
+            "keywd": " financial service sector"
+          },
+          "18": {
+            "keywd": " global financial system"
+          },
+          "19": {
+            "keywd": " operational risk management"
+          },
+          "2": {
+            "keywd": " Financial Stability"
+          },
+          "20": {
+            "keywd": " state agency"
+          },
+          "21": {
+            "keywd": " mandatory reporting"
+          },
+          "22": {
+            "keywd": " Financial Market Infrastructures"
+          },
+          "23": {
+            "keywd": " application programming interface"
+          },
+          "24": {
+            "keywd": " computer security incident"
+          },
+          "25": {
+            "keywd": " financial sector institution"
+          },
+          "26": {
+            "keywd": " case of emergency"
+          },
+          "27": {
+            "keywd": " bank of england"
+          },
+          "28": {
+            "keywd": " european central bank"
+          },
+          "29": {
+            "keywd": " denial of service"
+          },
+          "3": {
+            "keywd": " Cybersecurity"
+          },
+          "30": {
+            "keywd": " frequency of crash"
+          },
+          "31": {
+            "keywd": " financial sector regulation"
+          },
+          "32": {
+            "keywd": " assignment of responsibility"
+          },
+          "33": {
+            "keywd": " global labor market"
+          },
+          "34": {
+            "keywd": " effective banking supervision"
+          },
+          "35": {
+            "keywd": " electronic financial transaction"
+          },
+          "36": {
+            "keywd": " availability of systems"
+          },
+          "37": {
+            "keywd": " banks and banking"
+          },
+          "38": {
+            "keywd": " risk appetite"
+          },
+          "39": {
+            "keywd": " data integrity"
+          },
+          "4": {
+            "keywd": " International Organization of Securities Commissions"
+          },
+          "40": {
+            "keywd": " banking corporation"
+          },
+          "41": {
+            "keywd": " legal framework"
+          },
+          "42": {
+            "keywd": " crisis management"
+          },
+          "43": {
+            "keywd": " social engineering"
+          },
+          "44": {
+            "keywd": " disaster recovery"
+          },
+          "45": {
+            "keywd": " business strategy"
+          },
+          "46": {
+            "keywd": " supervisory practice"
+          },
+          "47": {
+            "keywd": " data center"
+          },
+          "48": {
+            "keywd": " defense policy"
+          },
+          "49": {
+            "keywd": " security agency"
+          },
+          "5": {
+            "keywd": " international organization for standardization"
+          },
+          "50": {
+            "keywd": " cyber threat"
+          },
+          "51": {
+            "keywd": " large bank"
+          },
+          "52": {
+            "keywd": " risk profile"
+          },
+          "53": {
+            "keywd": " systemic risk"
+          },
+          "54": {
+            "keywd": " incident management"
+          },
+          "55": {
+            "keywd": " Continuous Learning"
+          },
+          "56": {
+            "keywd": " operational independence"
+          },
+          "57": {
+            "keywd": " test result"
+          },
+          "58": {
+            "keywd": " adversely impact"
+          },
+          "59": {
+            "keywd": " supervisory agency"
+          },
+          "6": {
+            "keywd": " payment and market infrastructure"
+          },
+          "60": {
+            "keywd": " common language"
+          },
+          "7": {
+            "keywd": " Financial Sector"
+          },
+          "8": {
+            "keywd": " incident response"
+          },
+          "9": {
+            "keywd": " national institute of standards"
+          }
+        },
+        "lang": "English",
+        "owner": "Information Security (ITSIS)",
+        "pdfurl": "http://documents.worldbank.org/curated/en/686891519282121021/pdf/123655-REVISED-PUBLIC-Financial-Sectors-Cybersecurity-Final-LowRes.pdf",
+        "repnb": "123655",
+        "repnme": {
+          "repnme": "Financial sector\u2019s cybersecurity : regulations and supervision"
+        },
+        "seccl": "Public",
+        "subtopic": "Economic Growth,Financial Sector Policy,ICT Applications,ICT Policy and Strategies,Information Technology",
+        "teratopic": "Information and Communication Technologies,Macroeconomics and Economic Growth",
+        "totvolnb": "1",
+        "txturl": "http://documents.worldbank.org/curated/en/686891519282121021/text/123655-REVISED-PUBLIC-Financial-Sectors-Cybersecurity-Final-LowRes.txt",
+        "url": "http://documents.worldbank.org/curated/en/686891519282121021",
+        "versiontyp": "Revised",
+        "volnb": "1"
+      },
+      "D31184677": {
+        "abstracts": {
+          "cdata!": "The global cybersecurity capacity building program was designed by the World Bank to assist selected developing countries in strengthening their national cybersecurity environment through customized, technical-assistance programs and or capacity-building activities. The design of each country's program was based on the internationally-recognized, cybersecurity-capacity gap analysis and priority identification methodology. The grant aimed to directly benefit up to six developing countries and, while doing so, to operationalize that promotes open, affordable, and safe Internet for all. This document summarizes the main results, lessons learned during completion of the global cybersecurity capacity program conducted by the World Bank and related recommendations towards strengthening similar activities. Information contained in this material reflects the status of the program as of May 31, 2019."
+        },
+        "admreg": "Other",
+        "available_in": "English",
+        "chronical_docm_id": "090224b086df7d9a",
+        "count": "World",
+        "datestored": "2019-06-25T04:00:00Z",
+        "disclosure_date": "2019-08-07T13:57:56Z",
+        "disclstat": "Disclosed",
+        "display_title": "Global Cybersecurity Capacity Program : Lessons Learned and Recommendations towards Strengthening the Program",
+        "docdt": "2019-06-01T04:00:00Z",
+        "docna": {
+          "0": {
+            "docna": "Global Cybersecurity Capacity Program : Lessons Learned and Recommendations towards Strengthening the Program"
+          }
+        },
+        "docty": "Working Paper",
+        "entityids": {
+          "entityid": "090224b086f9f9c1_4_0"
+        },
+        "fullavailablein": [],
+        "guid": "947551561459590661",
+        "historic_topic": "Education,Governance,Information and Communication Technologies,Transport",
+        "id": "31184677",
+        "keywd": {
+          "0": {
+            "keywd": "Cybersecurity"
+          },
+          "1": {
+            "keywd": " short period of time"
+          },
+          "2": {
+            "keywd": " information systems and technology"
+          },
+          "3": {
+            "keywd": " beneficiary country"
+          }
+        },
+        "lang": "English",
+        "majdocty": "Publications & Research",
+        "majtheme": "FY17 - Private Sector Development",
+        "origu": "Digital Dev - ECA (IDD01)",
+        "owner": "Digital Dev - ECA (IDD01)",
+        "pdfurl": "http://documents.worldbank.org/curated/en/947551561459590661/pdf/Global-Cybersecurity-Capacity-Program-Lessons-Learned-and-Recommendations-towards-Strengthening-the-Program.pdf",
+        "prdln": "Advisory Services & Analytics",
+        "prdln_exact": "Advisory Services & Analytics",
+        "projectid": "P161667",
+        "projn": "1W-Global Cyber Security Capacity Program -- P161667",
+        "repnb": "138286",
+        "repnme": {
+          "repnme": "Global Cybersecurity Capacity Program : Lessons Learned and Recommendations towards Strengthening the Program"
+        },
+        "seccl": "Public",
+        "sectr": {
+          "0": {
+            "sector": "Information and Communications Technologies"
+          }
+        },
+        "subsc": "FY17 - ICT Services",
+        "subtopic": "E-Government,Educational Sciences,ICT Applications,Information Technology,Transport Services",
+        "teratopic": "Education,Governance,Information and Communication Technologies,Transport",
+        "theme": "FY17 - ICT Policies,FY17 - ICT Solutions,FY17 - ICT",
+        "totvolnb": "1",
+        "trustfund": "TF0A3697 - Global Cyber Security Capacity Building Program",
+        "txturl": "http://documents.worldbank.org/curated/en/947551561459590661/text/Global-Cybersecurity-Capacity-Program-Lessons-Learned-and-Recommendations-towards-Strengthening-the-Program.txt",
+        "url": "http://documents.worldbank.org/curated/en/947551561459590661",
+        "versiontyp": "Revised",
+        "volnb": "1"
+      },
+      "D32181588": {
+        "abstracts": {
+          "cdata!": "Cybersecurity includes activities focused on protecting computers, networks, software, and data from unauthorized or unintended access. Cybersecurity preserves the availability and integrity of information and communication networks and infrastructure. By 2020, buyers will spend EUR 582 billion on cybersecurity. The Croatian information Technology (IT) sector had more than EUR 1.9 billion of turnover in 2016. Some 3,800 companies are in the Croatian IT sector. They employ over 19,500 people. The IT sector is one of the main drivers of economic and social development in Croatia. IT firms achieved impressive growth in employees, exports, and revenues between 2011 and 2016 compared with other industries in Croatia. This report focuses on emerging strategic segments; supply of solutions development services to the regulated civilian market; areas where the value chain is weak; areas for reform; and recommendations"
+        },
+        "admreg": "Europe and Central Asia",
+        "alt_title": {
+          "0": {
+            "alt_title": "Hrvatska : Kiberneticka sigurnost"
+          }
+        },
+        "available_in": "English",
+        "chronical_docm_id": "090224b087aeeed9",
+        "colti": "Croatia Industry Snapshot",
+        "count": "Croatia",
+        "datestored": "2020-06-26T04:00:00Z",
+        "disclosure_date": "2020-06-26T04:46:05Z",
+        "disclstat": "Disclosed",
+        "display_title": "Croatia : Cybersecurity",
+        "docdt": "2020-06-01T04:00:00Z",
+        "docna": {
+          "0": {
+            "docna": "Croatia : Cybersecurity"
+          }
+        },
+        "docty": "Brief",
+        "entityids": {
+          "entityid": "090224b087aeeed9_1_0"
+        },
+        "fullavailablein": [],
+        "geo_regions": {
+          "0": {
+            "geo_region": "South Eastern Europe and Balkans"
+          },
+          "1": {
+            "geo_region": "World"
+          }
+        },
+        "guid": "210051593193301757",
+        "historic_topic": "Education,Information and Communication Technologies,Macroeconomics and Economic Growth,Poverty Reduction,Private Sector Development,Public Sector Development",
+        "id": "32181588",
+        "keywd": {
+          "0": {
+            "keywd": "Cybersecurity"
+          },
+          "1": {
+            "keywd": " vocational education and training"
+          },
+          "2": {
+            "keywd": " information and communication"
+          },
+          "3": {
+            "keywd": " negotiating power"
+          }
+        },
+        "lang": "English",
+        "majdocty": "Publications & Research",
+        "majtheme": "FY17 - Private Sector Development",
+        "owner": "EFI-ECA-MTI-MacroFiscal-2 (EECM2)",
+        "pdfurl": "http://documents.worldbank.org/curated/en/210051593193301757/pdf/Croatia-Cybersecurity.pdf",
+        "prdln": "Advisory Services & Analytics",
+        "prdln_exact": "Advisory Services & Analytics",
+        "projectid": "P160276",
+        "projn": "HR-Croatia Clusters and GVC Assessment -- P160276",
+        "repnb": "150068",
+        "repnme": {
+          "repnme": "Croatia : Cybersecurity"
+        },
+        "seccl": "Public",
+        "sectr": {
+          "0": {
+            "sector": "Industry, Trade and Services"
+          }
+        },
+        "subsc": "FY17 - Other Industry, Trade and Services",
+        "subtopic": "Business Environment,Economic Adjustment and Lending,Educational Sciences,ICT Applications,Macro-Fiscal Policy,Public Finance Decentralization and Poverty Reduction,Public Sector Economics,Social Development & Poverty,Taxation & Subsidies",
+        "teratopic": "Education,Information and Communication Technologies,Macroeconomics and Economic Growth,Poverty Reduction,Private Sector Development,Public Sector Development",
+        "theme": "FY17 - Enterprise Development,FY17 - Global value chains",
+        "totvolnb": "1",
+        "txturl": "http://documents.worldbank.org/curated/en/210051593193301757/text/Croatia-Cybersecurity.txt",
+        "url": "http://documents.worldbank.org/curated/en/210051593193301757",
+        "versiontyp": "Final",
+        "volnb": "1"
+      },
+      "D33433352": {
+        "abstracts": {
+          "cdata!": "Cybersecurity includes a set of activities focused on protecting computers, networks, programs, and data from unauthorized and or unintended access. As such, cybersecurity strives to preserve the availability and integrity of the networks and infrastructure and the confidentiality of the information contained therein. The Government of the Republic of Croatia has recognized cybersecurity as an increasingly important area for national security and has set up a strategic framework for cybersecurity through the national strategy for cybersecurity. The definition of the Croatian cybersecurity sub-thematic priority areas (STPA), as defined in Croatia\u2019s smart specialization strategy (S3), relies upon the sector definitions used in international best practice and considers sector specifics related to the information technology (IT) industry."
+        },
+        "admreg": "Europe and Central Asia",
+        "authors": {
+          "0": {
+            "author": "Mandic, Stjepan"
+          }
+        },
+        "available_in": "English",
+        "chronical_docm_id": "090224b0889ccd68",
+        "count": "Croatia",
+        "datestored": "2021-09-23T04:00:00Z",
+        "disclosure_date": "2021-09-23T14:07:59Z",
+        "disclstat": "Disclosed",
+        "display_title": "Cybersecurity : Report on Strategic Segmentation",
+        "docdt": "2018-06-01T04:00:00Z",
+        "docna": {
+          "0": {
+            "docna": "Cybersecurity : Report on Strategic Segmentation"
+          }
+        },
+        "docty": "Report",
+        "entityids": {
+          "entityid": "090224b0889ccd68_1_0"
+        },
+        "fullavailablein": [],
+        "geo_regions": {
+          "0": {
+            "geo_region": "South Eastern Europe and Balkans"
+          },
+          "1": {
+            "geo_region": "World"
+          }
+        },
+        "guid": "564581632395417322",
+        "historic_topic": "Conflict and Development,Information and Communication Technologies,Private Sector Development",
+        "id": "33433352",
+        "lang": "English",
+        "majdocty": "Publications & Research",
+        "majtheme": "FY17 - Private Sector Development",
+        "owner": "EFI-ECA-MTI-MacroFiscal-2 (EECM2)",
+        "pdfurl": "http://documents.worldbank.org/curated/en/564581632395417322/pdf/Cybersecurity-Report-on-Strategic-Segmentation.pdf",
+        "prdln": "Advisory Services & Analytics",
+        "prdln_exact": "Advisory Services & Analytics",
+        "projectid": "P160276",
+        "projn": "HR-Croatia Clusters and GVC Assessment -- P160276",
+        "repnb": "164348",
+        "repnme": {
+          "repnme": "Cybersecurity : Report on Strategic Segmentation"
+        },
+        "seccl": "Public",
+        "sectr": {
+          "0": {
+            "sector": "Industry, Trade and Services"
+          }
+        },
+        "subsc": "FY17 - Other Industry, Trade and Services",
+        "subtopic": "Business Environment,Conflict and Fragile States,ICT Applications,Information Technology",
+        "teratopic": "Conflict and Development,Information and Communication Technologies,Private Sector Development",
+        "theme": "FY17 - Enterprise Development,FY17 - Global value chains",
+        "totvolnb": "1",
+        "txturl": "http://documents.worldbank.org/curated/en/564581632395417322/text/Cybersecurity-Report-on-Strategic-Segmentation.txt",
+        "url": "http://documents.worldbank.org/curated/en/564581632395417322",
+        "versiontyp": "Final",
+        "volnb": "1"
+      },
+      "D34195941": {
+        "abstracts": {
+          "cdata!": "This practitioner note discusses emerging best-practices to accelerate cybersecurity skills development in low- and middle-income countries. It focuses on specialist cybersecurity skills, i.e., the human capital needed to fill advanced professional roles such as, inter alia, chief information security officer (CISO), cyber threat intelligence analyst, penetration tester, or cybersecurity architect. The note is intended for policy makers in developing countries and for the development community more broadly."
+        },
+        "admreg": "Other",
+        "authors": {
+          "0": {
+            "author": "Guyot Dasnieres De Salins, Ghislain Raymond Charles"
+          }
+        },
+        "available_in": "English",
+        "chronical_docm_id": "P177852-8994aa3d-0f6d-446d-8eca-94513904323a",
+        "count": "World",
+        "datestored": "2023-11-11T01:00:13Z",
+        "disclosure_date": "2023-11-13T18:05:53Z",
+        "disclstat": "Disclosed",
+        "display_title": "'Hacking' the Cybersecurity Skills Gap in Developing Countries",
+        "docdt": "2023-11-11T05:00:00Z",
+        "docna": {
+          "0": {
+            "docna": "'Hacking' the Cybersecurity Skills Gap in Developing Countries"
+          }
+        },
+        "docty": "Report",
+        "fullavailablein": [],
+        "guid": "099111023150023703",
+        "id": "34195941",
+        "lang": "English",
+        "majdocty": "Publications & Research",
+        "owner": "Brdband,Cybersec.&Digital4Climat (IDD09)",
+        "pdfurl": "http://documents.worldbank.org/curated/en/099111023150023703/pdf/P17785208994aa06d08eca094513904323a.pdf",
+        "prdln": "Advisory Services & Analytics",
+        "prdln_exact": "Advisory Services & Analytics",
+        "projectid": "P177852",
+        "projn": "1W-Cybersecurity Agile Engagement Program ASA -- P177852",
+        "repnb": "185806",
+        "seccl": "Public",
+        "sectr": {
+          "0": {
+            "sector": "Digital Development"
+          }
+        },
+        "subsc": "Cybersecurity",
+        "theme": "Cybersecurity,Digital Transformation",
+        "trustfund": "TF0B8643 - Cybersecurity Agile Engagement Program",
+        "txturl": "http://documents.worldbank.org/curated/en/099111023150023703/text/P17785208994aa06d08eca094513904323a.txt",
+        "url": "http://documents.worldbank.org/curated/en/099111023150023703",
+        "versiontyp": "Final",
+        "volnb": "1"
+      },
+      "facets": {}
+    },
+    "os": 0,
+    "page": 1,
+    "rows": 5,
+    "total": 1549
+  }
+}
