@@ -125,16 +125,46 @@ python -m wb_connector.dashboard
 
 **Linux / macOS**
 
+Check the version *first*. On macOS, `python3` is Apple's system Python 3.9, which is
+too old, and the failure only appears after the virtualenv is already built:
+
+```
+ERROR: Package 'worldbank-opportunity-intelligence' requires a different Python:
+3.9.6 not in '>=3.11'
+```
+
 ```bash
 git clone https://github.com/Prajwal3112/Opportunity.git
 cd Opportunity
-python3 -m venv .venv
+
+# Find an interpreter that is 3.11 or newer.
+ls /opt/homebrew/bin/python3.1* /usr/local/bin/python3.1* 2>/dev/null; python3 -V
+
+# None? Install one (macOS, Homebrew):
+brew install python@3.13
+
+# Build the virtualenv with THAT interpreter, not the bare `python3`.
+python3.13 -m venv .venv
 source .venv/bin/activate
+python -V                      # must print 3.11 or newer before continuing
 python -m pip install --upgrade pip
 pip install -e ".[web,dev]"
 pytest -m "not live" -q
 python -m wb_connector.dashboard
 ```
+
+If a `.venv` was already created with the wrong interpreter, delete it — upgrading in
+place does not work, because a virtualenv is bound to the interpreter that made it:
+
+```bash
+deactivate 2>/dev/null; rm -rf .venv
+```
+
+### Why 3.11 is a hard floor
+
+Not a preference. `StrEnum` (10 files) and `datetime.UTC` (12 files) both arrived in
+3.11, so running on 3.9 or 3.10 would mean rewriting 22 files rather than relaxing a
+version pin.
 
 Then open <http://127.0.0.1:8000>. The first load takes a few seconds while it fetches;
 after that the caches make it near-instant. Expect `147 passed` from the test run.
