@@ -142,17 +142,29 @@ after that the caches make it near-instant. Expect `147 passed` from the test ru
 If PowerShell refuses to run the activate script, allow it for this session only:
 `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`.
 
-### Does it actually work?
-
-The page needs to reach `search.worldbank.org`. Check before blaming the tool:
+### Check the setup before blaming the tool
 
 ```bash
-python -c "import httpx; r = httpx.get('https://search.worldbank.org/api/procnotices', params={'qterm':'SIEM','rows':1,'fl':'id'}, timeout=30); print(r.status_code, r.json().get('total'))"
+python -m wb_connector.check
 ```
 
-`200` and a number means the channel is open. A `CERTIFICATE_VERIFY_FAILED` means the
-network is running SSL deep inspection — the dashboard will say so rather than pretending
-the market is quiet, but you will see no tenders until you move networks.
+It verifies the Python version, the web packages, that the product catalogue loads and
+passes its own lint, that the state file can be written, and that `search.worldbank.org`
+actually answers:
+
+```
+  [ok] Python             Python 3.13
+  [ok] Web packages       fastapi, uvicorn and python-multipart are installed
+  [ok] Product catalogue  89 terms, version 2026.09.9-pilot
+  [ok] Writable state     state file .../dashboard.db
+  [ok] World Bank API     reachable -- 'SIEM' matches 213 notices
+```
+
+Exit codes are meant to be told apart: **0** everything works, **1** something is
+genuinely broken, **2** the install is fine but the network blocks the World Bank. That
+last one is common on corporate wifi running SSL deep inspection, and it is reported as
+`TLS is being intercepted on this network` rather than as a failure — the fix is a
+different network, not a reinstall.
 
 ### Postgres is optional and unrelated
 
