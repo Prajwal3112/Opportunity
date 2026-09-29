@@ -103,7 +103,11 @@ h1{{font-family:Newsreader,Georgia,serif;font-weight:300;font-size:1.5rem;margin
 .shell{{display:grid;grid-template-columns:minmax(0,1fr);align-items:start}}
 @media (min-width:64rem){{
   .shell{{grid-template-columns:19rem minmax(0,1fr)}}
-  .rail{{position:sticky;top:0;max-height:100vh;overflow-y:auto}}
+  /* A fixed viewport height, not max-height. With max-height the rail collapsed to its
+     own contents, so clearing the filters left a short dark stub floating above the
+     page background instead of a column. `height` makes it hold the screen whether the
+     controls are two chips or two hundred, and the overflow keeps the tall case usable. */
+  .rail{{position:sticky;top:0;height:100vh;overflow-y:auto}}
 }}
 
 /* ------------------------------------------------------------------- rail */
@@ -119,6 +123,8 @@ h1{{font-family:Newsreader,Georgia,serif;font-weight:300;font-size:1.5rem;margin
 .term.negative{{color:var(--rail-ink-2);font-weight:400}}
 .term.product{{background:transparent;box-shadow:inset 0 0 0 1px var(--rail-rule);
   color:var(--rail-ink-2);font-weight:400}}
+.term.market{{background:transparent;box-shadow:inset 0 0 0 1px var(--mark);
+  color:var(--mark-lift);font-weight:400}}
 .term form{{display:inline-flex}}
 .term button{{background:none;border:0;padding:0 .125rem;cursor:pointer;color:inherit;
   opacity:.6;font-size:.9375rem;line-height:1;font-family:inherit;min-height:1.375rem}}
@@ -284,6 +290,17 @@ footer{{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule);
     <p class="hint">Adding a product also starts searching for it.</p>
   </div>
 
+  <div class="group">
+    <h2><label for="add-region">Countries and regions</label></h2>
+    <div class="terms">{regions}</div>
+    <form class="entry-form" method="post" action="/add">
+      <input type="hidden" name="kind" value="regions">
+      <input type="text" id="add-region" name="term" placeholder="e.g. Kenya, or Africa" autocomplete="off">
+      <button class="add" type="submit">Add</button>
+    </form>
+    <p class="hint">{markets_hint}</p>
+  </div>
+
   <div class="group">{switches}</div>
 
   <div class="group">
@@ -324,6 +341,37 @@ def render_terms(terms: list[str], kind: str) -> str:
         f"</form></span>"
         for t in terms
     )
+
+
+def render_markets(regions: list[str], available: list[tuple[str, int]]) -> str:
+    """The chosen markets, plus a hint naming what is actually on offer.
+
+    The hint matters more than it looks. A business developer knows their own markets but
+    not how the World Bank spells them -- a third of these notices are filed under
+    regional names like "Eastern and Southern Africa" rather than a country -- so a
+    filter typed blind would quietly exclude real work. Listing what the current results
+    contain turns guessing into picking.
+    """
+    chips = "".join(
+        f'<span class="term market">{_esc(r)}'
+        f'<form method="post" action="/remove">'
+        f'<input type="hidden" name="kind" value="regions">'
+        f'<input type="hidden" name="term" value="{_esc(r)}">'
+        f'<button type="submit" aria-label="Remove {_esc(r)}">&times;</button>'
+        f"</form></span>"
+        for r in regions
+    )
+    return chips
+
+
+def markets_hint(regions: list[str], available: list[tuple[str, int]]) -> str:
+    if not available:
+        return ("Leave empty to search everywhere. Add a country, or part of one — "
+                "&ldquo;Africa&rdquo; also catches &ldquo;Eastern and Southern Africa&rdquo;.")
+    listed = ", ".join(f"{_esc(name)} ({count})" for name, count in available[:8])
+    more = f" and {len(available) - 8} more" if len(available) > 8 else ""
+    lead = "Currently showing" if regions else "Available right now"
+    return f"{lead}: {listed}{more}."
 
 
 def render_catalogue(items: list[Any]) -> str:

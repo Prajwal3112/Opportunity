@@ -23,6 +23,7 @@ import json
 import logging
 import os
 import sqlite3
+from collections import Counter
 from contextlib import closing
 from datetime import UTC, date, datetime, timedelta
 from enum import StrEnum
@@ -105,6 +106,7 @@ class TermList(StrEnum):
 
     FIND = "find"
     HIDE = "hide"
+    REGIONS = "regions"
 
 
 class TriageState(StrEnum):
@@ -161,7 +163,12 @@ def connect() -> sqlite3.Connection:
 
 # Ordered, append-only. `CREATE TABLE IF NOT EXISTS` cannot add a column to an existing
 # file, so without this any new column breaks a user who already has a dashboard.db.
-_MIGRATIONS: list[str] = []
+_MIGRATIONS: list[str] = [
+    # Countries and regions the user will actually bid in. Added after launch, so it has
+    # to be a migration: CREATE TABLE IF NOT EXISTS cannot add a column to a file that
+    # already exists, and anyone already running the dashboard has one.
+    "ALTER TABLE filters ADD COLUMN regions TEXT DEFAULT '[]'",
+]
 
 
 def _migrate(conn: sqlite3.Connection) -> None:
@@ -175,23 +182,32 @@ def _migrate(conn: sqlite3.Connection) -> None:
 def load_filter(conn: sqlite3.Connection) -> dict[str, Any]:
     row = conn.execute("SELECT * FROM filters WHERE name='default'").fetchone()
     if row is None:
-        save_filter(conn, default_find(), DEFAULT_HIDE, True, True)
+        save_filter(conn, default_find(), DEFAULT_HIDE, True, True, [])
         row = conn.execute("SELECT * FROM filters WHERE name='default'").fetchone()
+    try:
+        regions = json.loads(row["regions"] or "[]")
+    except (ValueError, TypeError, IndexError, KeyError):
+        regions = []
     return {
         "find": json.loads(row["find"]), "hide": json.loads(row["hide"]),
         "only_biddable": bool(row["only_biddable"]), "firms_only": bool(row["firms_only"]),
+        # Empty means everywhere. An empty market list is the sane default: a filter
+        # nobody set should never be the reason a tender is invisible.
+        "regions": regions,
     }
 
 
 def save_filter(conn: sqlite3.Connection, find: list[str], hide: list[str],
-                only_biddable: bool, firms_only: bool) -> None:
+                only_biddable: bool, firms_only: bool,
+                regions: list[str] | None = None) -> None:
     conn.execute(
-        "INSERT INTO filters(name,find,hide,only_biddable,firms_only,updated_at) "
-        "VALUES('default',?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET "
+        "INSERT INTO filters(name,find,hide,only_biddable,firms_only,regions,updated_at) "
+        "VALUES('default',?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET "
         "find=excluded.find, hide=excluded.hide, only_biddable=excluded.only_biddable, "
-        "firms_only=excluded.firms_only, updated_at=excluded.updated_at",
+        "firms_only=excluded.firms_only, regions=excluded.regions, "
+        "updated_at=excluded.updated_at",
         (json.dumps(find), json.dumps(hide), int(only_biddable), int(firms_only),
-         datetime.now(UTC).isoformat()),
+         json.dumps(regions or []), datetime.now(UTC).isoformat()),
     )
     conn.commit()
 
@@ -448,8 +464,26 @@ def _cheap_date(value: Any) -> date | None:
         return None
 
 
+def _in_chosen_markets(record: dict, regions: tuple[str, ...]) -> bool:
+    """Whether this notice sits in a market the organisation will bid in.
+
+    Empty means everywhere, so a filter nobody set can never hide a tender.
+
+    Substring matching, deliberately unlike the body exclusions, which must match whole
+    words. The field here is one short country or region name, not a 900 KB document, so
+    the failure mode that made substrings dangerous there does not exist -- and substrings
+    are what makes this useful: typing "Africa" should catch both "South Africa" and the
+    World Bank's own "Eastern and Southern Africa", which is how a third of these notices
+    name their location.
+    """
+    if not regions:
+        return True
+    where = str(record.get("project_ctry_name") or "").casefold()
+    return any(r in where for r in regions)
+
+
 def _survives_cheap_filters(record: dict, *, only_biddable: bool, firms_only: bool,
-                            as_of: date) -> bool:
+                            as_of: date, regions: tuple[str, ...] = ()) -> bool:
     """The filters that need no body, decided on the raw record.
 
     Deliberately does **not** build a ``ProcurementNotice``. Validating a Pydantic model
@@ -458,6 +492,8 @@ def _survives_cheap_filters(record: dict, *, only_biddable: bool, firms_only: bo
     from ``biddability.assess``, the single shared owner, so this cannot drift from what
     the rest of the system believes; only the plumbing is cheaper.
     """
+    if not _in_chosen_markets(record, regions):
+        return False
     if only_biddable:
         verdict = assess(
             notice_type=record.get("notice_type"),
@@ -545,6 +581,7 @@ class Result:
 
 async def search(find: list[str], hide: list[str], *, only_biddable: bool, firms_only: bool,
                  record_seen: bool = True, fresh: bool = False,
+                 regions: list[str] | None = None,
                  ) -> tuple[list[Result], dict[str, int | None], list[str]]:
     """Fetch in two phases, because a notice body is 96.7% of its weight.
 
@@ -654,10 +691,11 @@ async def search(find: list[str], hide: list[str], *, only_biddable: bool, firms
         today = datetime.now(UTC).date()
 
         # Phase two: bodies, only for what survives the cheap filters.
+        chosen = tuple(r.strip().casefold() for r in (regions or []) if r.strip())
         survivors = [
             notice_id for notice_id, record in raw_by_id.items()
             if _survives_cheap_filters(record, only_biddable=only_biddable,
-                                       firms_only=firms_only, as_of=today)
+                                       firms_only=firms_only, as_of=today, regions=chosen)
         ]
         # Soonest deadline first, so that if the body budget is reached it is spent on
         # the tenders closest to closing rather than on an arbitrary slice.
@@ -820,13 +858,20 @@ def render(rows: list[Result], totals: dict[str, int | None], warnings: list[str
            flt: dict[str, Any], elapsed: float, *, cached: bool = False) -> str:
     from .dashboard_template import (
         PAGE,
+        markets_hint,
         render_blank,
         render_catalogue,
         render_groups,
+        render_markets,
         render_reach,
         render_switches,
         render_terms,
     )
+
+    # Counted from what is on screen, so the hint names real options rather than a
+    # static list of every country the World Bank lends to.
+    places = Counter(r.notice.project_country_name for r in rows if r.notice.project_country_name)
+    available = places.most_common()
 
     fresh = sum(1 for r in rows if r.is_new)
     chasing = sum(1 for r in rows if r.state == "PURSUING")
@@ -855,6 +900,8 @@ def render(rows: list[Result], totals: dict[str, int | None], warnings: list[str
         switches=render_switches(flt["only_biddable"]),
         reach=render_reach(totals),
         catalogue=render_catalogue(catalogue_entries()),
+        regions=render_markets(flt["regions"], available),
+        markets_hint=markets_hint(flt["regions"], available),
         warnings="".join(f'<div class="notice">{esc(w)}</div>' for w in warnings),
         groups=render_groups(rows) if rows else render_blank(totals),
         footer=footer,
@@ -935,7 +982,7 @@ def build_app():
         rows, totals, warnings = await search(
             flt["find"], flt["hide"],
             only_biddable=flt["only_biddable"], firms_only=flt["firms_only"],
-            fresh=bool(fresh))
+            fresh=bool(fresh), regions=flt["regions"])
         await attach_dossiers(rows)
         elapsed = (datetime.now(UTC) - started).total_seconds()
         if problem:
@@ -968,7 +1015,8 @@ def build_app():
             cleaned = " ".join(text.split())
             if cleaned not in flt["find"]:
                 flt["find"].append(cleaned)
-            save_filter(conn, flt["find"], flt["hide"], flt["only_biddable"], flt["firms_only"])
+            save_filter(conn, flt["find"], flt["hide"], flt["only_biddable"], flt["firms_only"],
+                        flt["regions"])
         return RedirectResponse("/", status_code=303)
 
     @app.post("/catalogue/remove")
@@ -989,7 +1037,8 @@ def build_app():
             # Never leave the retriever with nothing to ask for: an empty find list
             # fetches nothing at all, which reads as the tool having broken.
             if remaining:
-                save_filter(conn, remaining, flt["hide"], flt["only_biddable"], flt["firms_only"])
+                save_filter(conn, remaining, flt["hide"], flt["only_biddable"], flt["firms_only"],
+                        flt["regions"])
         return RedirectResponse("/", status_code=303)
 
     @app.get("/document")
@@ -1030,7 +1079,8 @@ def build_app():
             cleaned = " ".join(term.split())
             if cleaned and cleaned not in flt[key]:
                 flt[key].append(cleaned)
-            save_filter(conn, flt["find"], flt["hide"], flt["only_biddable"], flt["firms_only"])
+            save_filter(conn, flt["find"], flt["hide"], flt["only_biddable"], flt["firms_only"],
+                        flt["regions"])
         return RedirectResponse("/", status_code=303)
 
     @app.post("/toggle")
@@ -1044,7 +1094,8 @@ def build_app():
         with closing(connect()) as conn:
             flt = load_filter(conn)
             flt[field] = not flt[field]
-            save_filter(conn, flt["find"], flt["hide"], flt["only_biddable"], flt["firms_only"])
+            save_filter(conn, flt["find"], flt["hide"], flt["only_biddable"], flt["firms_only"],
+                        flt["regions"])
         return RedirectResponse("/", status_code=303)
 
     @app.post("/remove")
@@ -1062,7 +1113,8 @@ def build_app():
                     "/?problem=" + quote("That is your last search term. Add another "
                                          "before removing this one."), status_code=303)
             flt[key] = remaining
-            save_filter(conn, flt["find"], flt["hide"], flt["only_biddable"], flt["firms_only"])
+            save_filter(conn, flt["find"], flt["hide"], flt["only_biddable"], flt["firms_only"],
+                        flt["regions"])
         return RedirectResponse("/", status_code=303)
 
     @app.post("/mark")

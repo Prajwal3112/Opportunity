@@ -56,6 +56,19 @@ Environment variables, all optional:
 It does not include AI scoring, authentication, CRM integration, or multi-tenancy.
 Relevance is deterministic and driven entirely by `profiles/cybersecurity.json`.
 
+## Filtering by market
+
+Leave **Countries and regions** empty and it searches everywhere. Add a country to
+narrow it. Matching is on part of the name, because a third of these notices are filed
+under a World Bank region rather than a country — so `Africa` catches both
+`South Africa` and `Eastern and Southern Africa`, which a country-exact filter would
+miss. The rail lists which places the current results actually contain, with counts, so
+the filter can be picked rather than guessed.
+
+The market filter runs in the body-free phase of the fetch, so narrowing to one country
+removes its notices *before* their bodies are downloaded — it makes the page faster, not
+just shorter.
+
 ## Why it is fast
 
 A notice body is **96.7% of the notice's weight** — measured on a live search for
