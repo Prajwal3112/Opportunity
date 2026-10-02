@@ -134,6 +134,10 @@ input[type=text]{{font:inherit;font-size:.8125rem;flex:1 1 auto;min-width:0;
   border:1px solid var(--rail-rule);border-radius:.125rem;padding:.375rem .5rem;
   background:var(--rail-2);color:var(--rail-ink);min-height:2rem}}
 input[type=text]::placeholder{{color:var(--rail-ink-2)}}
+select{{font:inherit;font-size:.8125rem;flex:1 1 auto;min-width:0;
+  border:1px solid var(--rail-rule);border-radius:.125rem;padding:.375rem .5rem;
+  background:var(--rail-2);color:var(--rail-ink);min-height:2rem}}
+select:disabled{{color:var(--rail-ink-2);opacity:.7}}
 .add{{font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer;flex:none;
   border:1px solid var(--rail-rule);background:transparent;color:var(--rail-ink-2);
   border-radius:.125rem;padding:.375rem .625rem;min-height:2rem;
@@ -179,6 +183,15 @@ input[type=text]::placeholder{{color:var(--rail-ink-2)}}
 .horizon.soon h2,.horizon.soon h2 .count{{color:var(--amber)}}
 .horizon.soon h2::after{{background:var(--amber)}}
 .gloss{{font-size:.75rem;color:var(--ink-3);margin:.25rem 0 .75rem;max-width:64ch}}
+.mentions{{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule)}}
+.mentions > summary{{font-size:.875rem;font-weight:700;color:var(--ink-2)}}
+.mentions > summary:hover{{color:var(--mark)}}
+.mentions em{{font-style:italic;font-weight:400}}
+.none-on-topic{{border-left:3px solid var(--amber);background:var(--amber-soft);
+  border-radius:.125rem;padding:1rem 1.125rem;font-size:.875rem;color:var(--ink-2);
+  line-height:1.6;max-width:62ch}}
+.none-on-topic strong{{display:block;font-family:Newsreader,Georgia,serif;font-weight:400;
+  font-size:1.125rem;color:var(--ink);margin-bottom:.375rem}}
 
 /* One tender: a ruled register line. Width gives the date its own column instead of
    burying it in a sentence. */
@@ -295,7 +308,7 @@ footer{{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule);
     <div class="terms">{regions}</div>
     <form class="entry-form" method="post" action="/add">
       <input type="hidden" name="kind" value="regions">
-      <input type="text" id="add-region" name="term" placeholder="e.g. Kenya, or Africa" autocomplete="off">
+      {region_options}
       <button class="add" type="submit">Add</button>
     </form>
     <p class="hint">{markets_hint}</p>
@@ -343,6 +356,26 @@ def render_terms(terms: list[str], kind: str) -> str:
     )
 
 
+def render_region_picker(available: list[tuple[str, int]], chosen: list[str]) -> str:
+    """A dropdown of the places the search terms actually reach, with counts.
+
+    Typed free text could not work here and was the wrong control: the World Bank files
+    a third of these notices under its own regional names, so a reader guessing at
+    "Tanzania" misses "Eastern and Southern Africa", and nothing on screen told them
+    the name they wanted existed. The options are built from the current result set, so
+    the list is always real and never a stale catalogue of every borrowing country.
+    """
+    already = {c.casefold() for c in chosen}
+    options = [(name, count) for name, count in available if name.casefold() not in already]
+    if not options:
+        return ('<select name="term" id="add-region" disabled>'
+                "<option>nothing left to add</option></select>")
+    body = "".join(f'<option value="{_esc(name)}">{_esc(name)} ({count})</option>'
+                   for name, count in options)
+    return (f'<select name="term" id="add-region"><option value="" disabled selected>'
+            f"choose a country or region</option>{body}</select>")
+
+
 def render_markets(regions: list[str], available: list[tuple[str, int]]) -> str:
     """The chosen markets, plus a hint naming what is actually on offer.
 
@@ -365,13 +398,12 @@ def render_markets(regions: list[str], available: list[tuple[str, int]]) -> str:
 
 
 def markets_hint(regions: list[str], available: list[tuple[str, int]]) -> str:
-    if not available:
-        return ("Leave empty to search everywhere. Add a country, or part of one — "
-                "&ldquo;Africa&rdquo; also catches &ldquo;Eastern and Southern Africa&rdquo;.")
-    listed = ", ".join(f"{_esc(name)} ({count})" for name, count in available[:8])
-    more = f" and {len(available) - 8} more" if len(available) > 8 else ""
-    lead = "Currently showing" if regions else "Available right now"
-    return f"{lead}: {listed}{more}."
+    if not regions:
+        total = sum(count for _n, count in available)
+        return (f"Searching everywhere &mdash; {total} tenders across {len(available)} "
+                "places. Choose one to narrow it.")
+    return (f"Showing {len(regions)} of {len(available)} places. "
+            "Remove them all to search everywhere again.")
 
 
 def render_catalogue(items: list[Any]) -> str:
@@ -460,7 +492,14 @@ def _band(row: Any) -> tuple[int, str, str, str]:
     return 2, HORIZONS[-1][0], "", ""
 
 
-def render_groups(rows: list[Any]) -> str:
+MENTIONS_GLOSS = (
+    "These tenders are about something else &mdash; roads, locomotives, agriculture "
+    "&mdash; and name one of your terms somewhere inside the document. Occasionally that "
+    "is a real component worth chasing. Usually it is not."
+)
+
+
+def _horizons(rows: list[Any]) -> str:
     buckets: dict[int, tuple[str, str, str, list[Any]]] = {}
     for row in rows:
         order, heading, css, gloss = _band(row)
@@ -473,6 +512,39 @@ def render_groups(rows: list[Any]) -> str:
         out.append(f'<section class="horizon {css}"><h2>{heading}'
                    f'<span class="count">{len(members)}</span></h2>{note}{body}</section>')
     return "".join(out)
+
+
+def render_groups(rows: list[Any]) -> str:
+    """Tenders *for* the thing first; tenders that merely mention it, folded away.
+
+    Measured on a live result set: 18 tenders, of which **2** named a matched term in
+    their own subject line. The other 16 were agricultural quality improvement, 11kV auto
+    reclosers, freight locomotives and garment skills training, each mentioning a cyber
+    phrase once somewhere in a long annex. Presenting all 18 as one list of
+    "opportunities" is what made the page feel productive and waste the reader's morning.
+
+    The split is structural rather than a score, for the same reason the closing horizons
+    are: a reader can check it themselves by looking at the title. Nothing is discarded,
+    because an embedded component is sometimes the real thing -- it is just not the first
+    thing you should read.
+    """
+    on_topic = [r for r in rows if getattr(r, "on_topic", False)]
+    mentions = [r for r in rows if not getattr(r, "on_topic", False)]
+    if not on_topic:
+        # Nothing is about the product today. Say that plainly rather than leading with
+        # sixteen locomotive tenders as though they were the pipeline.
+        lead = ('<div class="none-on-topic"><strong>Nothing today is a tender for your '
+                "products.</strong>Every match below is a tender about something else "
+                "that happens to mention one of your terms. That is a real answer, not "
+                "an empty page.</div>")
+    else:
+        lead = _horizons(on_topic)
+    if not mentions:
+        return lead
+    folded = (f'<details class="mentions"><summary>{len(mentions)} more that only '
+              f'<em>mention</em> your terms</summary>'
+              f'<p class="gloss">{MENTIONS_GLOSS}</p>{_horizons(mentions)}</details>')
+    return lead + folded
 
 
 def render_rows(rows: list[Any]) -> str:

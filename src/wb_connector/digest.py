@@ -184,7 +184,7 @@ async def run(*, send: bool, window: int) -> int:
         skip = dismissed(conn)
 
     # record_seen=False: the digest must not write any ledger before it has delivered.
-    rows, totals, warnings = await search(
+    rows, totals, warnings, _places = await search(
         flt["find"], flt["hide"],
         only_biddable=flt["only_biddable"], firms_only=flt["firms_only"],
         record_seen=False,

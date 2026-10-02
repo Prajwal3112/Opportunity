@@ -569,11 +569,17 @@ async def fetch_bodies(client, notice_ids: list[str], warnings: list[str]) -> di
 class Result:
     """One row. `is_new` is mutable: it is refined after the fetch ledger is written."""
 
-    __slots__ = ("days", "docs", "is_new", "notice", "raw", "state", "why")
+    __slots__ = ("days", "docs", "is_new", "notice", "on_topic", "raw", "state", "why")
 
-    def __init__(self, notice, raw, why, days, is_new, state, docs=()):
+    def __init__(self, notice, raw, why, days, is_new, state, docs=(), on_topic=False):
         self.notice, self.raw, self.why = notice, raw, why
         self.days, self.is_new, self.state = days, is_new, state
+        # True when the matched phrase appears in the tender's own subject line, which is
+        # the difference between a tender FOR the product and a tender about something
+        # else that mentions it somewhere in an annex. Measured on a live result set:
+        # 2 of 18 were on topic, and the other 16 were locomotives, agricultural quality
+        # and garment skills training that each named a cyber term once.
+        self.on_topic = on_topic
         # The project's published documents. Attached after the search, because a
         # document lookup must never be able to cost the user a tender.
         self.docs = list(docs)
@@ -692,6 +698,15 @@ async def search(find: list[str], hide: list[str], *, only_biddable: bool, firms
 
         # Phase two: bodies, only for what survives the cheap filters.
         chosen = tuple(r.strip().casefold() for r in (regions or []) if r.strip())
+        # Counted before the market filter, so the dropdown still offers every place the
+        # terms reach rather than only the one already selected.
+        everywhere = Counter(
+            str(record.get("project_ctry_name") or "").strip()
+            for record in raw_by_id.values()
+            if _survives_cheap_filters(record, only_biddable=only_biddable,
+                                       firms_only=firms_only, as_of=today)
+        )
+        everywhere.pop("", None)
         survivors = [
             notice_id for notice_id, record in raw_by_id.items()
             if _survives_cheap_filters(record, only_biddable=only_biddable,
@@ -762,16 +777,19 @@ async def search(find: list[str], hide: list[str], *, only_biddable: bool, firms
             matched, why = remembered
             if not matched:
                 continue
+            on_topic = bool(why) and bool(
+                find_spans(notice.bid_description or "", why, case_sensitive=why.isupper()))
         else:
             candidate = candidate_input_from_procurement(notice)
             candidate = candidate.model_copy(update={"notice_text": body or None})
             verdict = engine.evaluate(candidate, profile)
             why = ""
+            on_topic = False
             if verdict.tier.value != "NO_MATCH":
                 for match in verdict.positive_matches:
                     if find_spans(notice.bid_description or "", match.term,
                                   case_sensitive=match.term.isupper()):
-                        why = match.term
+                        why, on_topic = match.term, True
                         break
                 if not why and verdict.positive_matches:
                     why = verdict.positive_matches[0].term
@@ -785,6 +803,7 @@ async def search(find: list[str], hide: list[str], *, only_biddable: bool, firms
             notice=notice, raw=record, why=why,
             days=(deadline - today).days if deadline else None,
             is_new=notice_id in already_new, state=marked.get(notice_id, ""),
+            on_topic=on_topic,
         ))
 
     if excluded:
@@ -813,7 +832,7 @@ async def search(find: list[str], hide: list[str], *, only_biddable: bool, firms
         for row in rows:
             if row.notice.external_id in fresh:
                 row.is_new = True
-    return rows, totals, warnings
+    return rows, totals, warnings, everywhere.most_common()
 
 
 async def attach_dossiers(rows: list[Result]) -> None:
@@ -855,7 +874,8 @@ def catalogue_entries() -> list[Any]:
 
 
 def render(rows: list[Result], totals: dict[str, int | None], warnings: list[str],
-           flt: dict[str, Any], elapsed: float, *, cached: bool = False) -> str:
+           flt: dict[str, Any], elapsed: float, *, cached: bool = False,
+           places: list[tuple[str, int]] | None = None) -> str:
     from .dashboard_template import (
         PAGE,
         markets_hint,
@@ -864,18 +884,23 @@ def render(rows: list[Result], totals: dict[str, int | None], warnings: list[str
         render_groups,
         render_markets,
         render_reach,
+        render_region_picker,
         render_switches,
         render_terms,
     )
 
-    # Counted from what is on screen, so the hint names real options rather than a
-    # static list of every country the World Bank lends to.
-    places = Counter(r.notice.project_country_name for r in rows if r.notice.project_country_name)
-    available = places.most_common()
+    # Every place the search terms reach, not just the ones surviving the market filter,
+    # so the dropdown does not narrow to the single country already chosen.
+    available = places if places is not None else Counter(
+        r.notice.project_country_name for r in rows if r.notice.project_country_name
+    ).most_common()
 
     fresh = sum(1 for r in rows if r.is_new)
     chasing = sum(1 for r in rows if r.state == "PURSUING")
-    tally = f"<b>{len(rows)}</b> open"
+    on_topic = sum(1 for r in rows if getattr(r, "on_topic", False))
+    tally = f"<b>{on_topic}</b> for your products"
+    if len(rows) - on_topic:
+        tally += f", <b>{len(rows) - on_topic}</b> mentioning them"
     if fresh:
         tally += f", <b>{fresh}</b> new since you last looked"
     if chasing:
@@ -901,6 +926,7 @@ def render(rows: list[Result], totals: dict[str, int | None], warnings: list[str
         reach=render_reach(totals),
         catalogue=render_catalogue(catalogue_entries()),
         regions=render_markets(flt["regions"], available),
+        region_options=render_region_picker(available, flt["regions"]),
         markets_hint=markets_hint(flt["regions"], available),
         warnings="".join(f'<div class="notice">{esc(w)}</div>' for w in warnings),
         groups=render_groups(rows) if rows else render_blank(totals),
@@ -979,7 +1005,7 @@ def build_app():
         with closing(connect()) as conn:
             flt = load_filter(conn)
         started = datetime.now(UTC)
-        rows, totals, warnings = await search(
+        rows, totals, warnings, places = await search(
             flt["find"], flt["hide"],
             only_biddable=flt["only_biddable"], firms_only=flt["firms_only"],
             fresh=bool(fresh), regions=flt["regions"])
@@ -987,7 +1013,7 @@ def build_app():
         elapsed = (datetime.now(UTC) - started).total_seconds()
         if problem:
             warnings = [problem[:300], *warnings]
-        return render(rows, totals, warnings, flt, elapsed, cached=not fresh)
+        return render(rows, totals, warnings, flt, elapsed, cached=not fresh, places=places)
 
     @app.post("/refresh")
     async def refresh():

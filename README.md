@@ -56,14 +56,33 @@ Environment variables, all optional:
 It does not include AI scoring, authentication, CRM integration, or multi-tenancy.
 Relevance is deterministic and driven entirely by `profiles/cybersecurity.json`.
 
+## Tenders for your products, versus tenders that mention them
+
+This is the distinction the page is built around, and it was learned the hard way. A live
+search returned **18 tenders. Two of them named a matched term in their own subject
+line.** The other sixteen were agricultural quality improvement, 11kV auto reclosers,
+freight locomotives and garment skills training — each mentioning a cyber phrase once,
+somewhere in a long annex.
+
+Presented as one list of eighteen "opportunities", that reads as a pipeline and costs a
+morning. So the page leads with the tenders whose own title is about the thing, and folds
+the rest behind a disclosure that says what they are. Nothing is discarded — an embedded
+component is occasionally the real thing — but it is not the first thing you read.
+
+The split is structural, not a score, for the same reason the closing horizons are: the
+reader can verify it by looking at the title. When nothing is on topic the page says so
+outright, because "nothing today is a tender for your products" is a real answer and an
+empty-looking page is not.
+
 ## Filtering by market
 
-Leave **Countries and regions** empty and it searches everywhere. Add a country to
-narrow it. Matching is on part of the name, because a third of these notices are filed
-under a World Bank region rather than a country — so `Africa` catches both
-`South Africa` and `Eastern and Southern Africa`, which a country-exact filter would
-miss. The rail lists which places the current results actually contain, with counts, so
-the filter can be picked rather than guessed.
+Leave **Countries and regions** empty and it searches everywhere, or pick from the
+dropdown, which lists the places the current search terms actually reach with a count
+each. It is a dropdown rather than a text box because a third of these notices are filed
+under a World Bank region rather than a country: someone typing `Tanzania` misses
+`Eastern and Southern Africa`, and nothing on screen would have told them that name
+existed. The options are counted *before* the market filter applies, so choosing one
+country does not collapse the list to that country.
 
 The market filter runs in the body-free phase of the fetch, so narrowing to one country
 removes its notices *before* their bodies are downloaded — it makes the page faster, not
